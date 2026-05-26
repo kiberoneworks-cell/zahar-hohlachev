@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Захар, Екатерина & Нубик — Семейная история</title>
+    <!-- Google Fonts + Font Awesome 6 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #FEF5E7;  /* тёплый, сливочно-персиковый фон */
+            font-family: 'Inter', sans-serif;
+            color: #2D2A24;
+            line-height: 1.4;
+            padding: 2rem 1.5rem;
+        }
+
+        /* основной контейнер — мягкие границы, центрирование */
+        .wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 248, 235, 0.5);
+            border-radius: 56px;
+            padding: 2rem 2rem 2.5rem 2rem;
+            backdrop-filter: blur(2px);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+        }
+
+        /* заголовок */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #C96E2D, #E6A157);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-tagline {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #B45F2B;
+            background: #FFF2E2;
+            display: inline-block;
+            padding: 0.4rem 1.2rem;
+            border-radius: 100px;
+            backdrop-filter: blur(4px);
+            margin-top: 0.5rem;
+        }
+
+        /* сетка карточек — три колонки на десктопе, круглые углы */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0 2.5rem;
+        }
+
+        /* карточка — тёплая, мягкая, огромные скругления */
+        .card {
+            background: #FFFFFFEE;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 2rem 1.5rem 2.5rem 1.5rem;
+            box-shadow: 0 25px 40px -18px rgba(0, 0, 0, 0.2);
+            transition: transform 0.25s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 215, 170, 0.7);
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 30px 45px -16px rgba(0, 0, 0, 0.25);
+            background: #FFFFFF;
+        }
+
+        /* аватар-круг и иконки */
+        .avatar-icon {
+            background: #FCE9D4;
+            width: 110px;
+            height: 110px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem auto;
+            font-size: 3.6rem;
+            color: #C35E1A;
+            box-shadow: 0 8px 12px -6px rgba(0, 0, 0, 0.08);
+            transition: background 0.2s;
+        }
+
+        .card:hover .avatar-icon {
+            background: #FADCB5;
+        }
+
+        /* крупные шрифты */
+        .card h2 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.4rem;
+            color: #36281C;
+        }
+
+        .badge-age {
+            display: inline-block;
+            background: #F5E2CD;
+            border-radius: 40px;
+            padding: 0.3rem 1rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #AA5C2A;
+            margin-bottom: 1rem;
+        }
+
+        .info-block {
+            margin: 1.2rem 0;
+        }
+
+        .info-label {
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #BE7C47;
+            margin-bottom: 0.4rem;
+        }
+
+        .info-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #2F241B;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .info-value i, .info-value span {
+            font-size: 1.7rem;
+        }
+
+        .dream-text, .superpower-text, .cat-superpower {
+            background: #FEF2E3;
+            border-radius: 60px;
+            padding: 0.8rem 1.2rem;
+            margin-top: 1rem;
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #6A3E1C;
+            display: inline-block;
+            width: auto;
+        }
+
+        .dream-text i, .superpower-text i, .cat-superpower i {
+            margin-right: 8px;
+            color: #E07C2C;
+        }
+
+        .desc-meta {
+            font-size: 1rem;
+            color: #9B6A3E;
+            margin-top: 1rem;
+            border-top: 1px dashed #F0DECA;
+            padding-top: 1rem;
+        }
+
+        /* объединяющий блок (связь родитель+ребёнок+кот) */
+        .together-section {
+            background: #FFF5E9;
+            border-radius: 52px;
+            padding: 1.6rem 2rem;
+            text-align: center;
+            margin-top: 1rem;
+            border: 1px solid #FFE2C1;
+        }
+
+        .together-section p {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #86512B;
+        }
+
+        .together-section i {
+            color: #E0701A;
+            font-size: 1.6rem;
+            margin: 0 6px;
+        }
+
+        /* дополнительные акценты */
+        .footer-note {
+            text-align: center;
+            margin-top: 2.5rem;
+            font-size: 0.9rem;
+            color: #BA8A5A;
+            border-top: 1px solid #F0DDCC;
+            padding-top: 1.8rem;
+        }
+
+        /* адаптивность: на планшетах 2 колонки, на мобильных 1 */
+        @media (max-width: 980px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.8rem;
+            }
+            .hero h1 {
+                font-size: 2.6rem;
+            }
+            .card h2 {
+                font-size: 2.2rem;
+            }
+            .info-value {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 680px) {
+            body {
+                padding: 1rem;
+            }
+            .wrapper {
+                padding: 1.5rem;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.8rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .card h2 {
+                font-size: 2rem;
+            }
+            .info-value {
+                font-size: 1.3rem;
+            }
+            .avatar-icon {
+                width: 85px;
+                height: 85px;
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 1.5rem;
+            }
+            .together-section p {
+                font-size: 1.2rem;
+            }
+        }
+
+        .highlight {
+            font-weight: 800;
+            color: #CB6E2E;
+        }
+        
+        /* кошачья лапка */
+        .paw-prints {
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="hero">
+        <h1>🏍️ Захар ✨ Екатерина 🐾 Нубик</h1>
+        <div class="hero-tagline">
+            <i class="fas fa-heart" style="color: #E0701A; margin-right: 8px;"></i> 
+            сын, супер-мама и пушистый акробат — одна семья 
+            <i class="fas fa-heart" style="color: #E0701A; margin-left: 8px;"></i>
+        </div>
+    </div>
+
+    <div class="cards-grid">
+        <!-- Карточка ребёнка: Захар -->
+        <div class="card">
+            <div class="avatar-icon">
+                <i class="fas fa-child"></i>
+            </div>
+            <h2>Захар</h2>
+            <div class="badge-age">
+                <i class="fas fa-cake-candles"></i> 9 лет
+            </div>
+            <div class="info-block">
+                <div class="info-label">
+                    <i class="fas fa-dream"></i> Мечта
+                </div>
+                <div class="info-value">
+                    <i class="fas fa-motorcycle"></i> 
+                    <span>Питбайк</span>
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="dream-text">
+                    <i class="fas fa-flag-checkered"></i> Покорять треки, грязь и скорость! 
+                    «Мечтаю о своём питбайке, чтобы мчаться как ветер».
+                </div>
+            </div>
+            <div class="desc-meta">
+                <i class="fas fa-grin-stars"></i> энергичный, смелый и настойчивый
+            </div>
+        </div>
+
+        <!-- Карточка родителя: Екатерина (дизайнер) -->
+        <div class="card">
+            <div class="avatar-icon">
+                <i class="fas fa-paintbrush-fine"></i>
+                <i class="fas fa-scissors"></i>
+            </div>
+            <h2>Екатерина</h2>
+            <div class="badge-age">
+                <i class="fas fa-star-of-life"></i> 52 года
+            </div>
+            <div class="info-block">
+                <div class="info-label">
+                    <i class="fas fa-crown"></i> Суперспособность
+                </div>
+                <div class="info-value">
+                    <i class="fas fa-tshirt"></i> 
+                    <span>Дизайнер по одежде</span>
+                    <i class="fas fa-palette"></i>
+                </div>
+                <div class="superpower-text">
+                    <i class="fas fa-magic"></i> Создаёт уникальные коллекции, превращает ткань в искусство.
+                    Стиль, комфорт и смелые решения — её суперсила.
+                </div>
+            </div>
+            <div class="desc-meta">
+                <i class="fas fa-lightbulb"></i> вдохновляет сына своим творчеством и поддерживает каждую мечту
+            </div>
+        </div>
+
+        <!-- Карточка кота: Нубик -->
+        <div class="card">
+            <div class="avatar-icon">
+                <i class="fas fa-cat"></i>
+                <i class="fas fa-paw"></i>
+            </div>
+            <h2>Нубик</h2>
+            <div class="badge-age">
+                <i class="fas fa-birthday-cake"></i> 9 месяцев
+            </div>
+            <div class="info-block">
+                <div class="info-label">
+                    <i class="fas fa-feather-alt"></i> Окрас
+                </div>
+                <div class="info-value">
+                    <i class="fas fa-cloud-moon"></i> 
+                    <span>Серый с чёрным</span>
+                    <i class="fas fa-cloud-sun"></i>
+                </div>
+                <div class="info-label" style="margin-top: 12px;">
+                    <i class="fas fa-rocket"></i> Суперспособность
+                </div>
+                <div class="cat-superpower">
+                    <i class="fas fa-frog"></i> Прыгать по цветам и по шкафам <i class="fas fa-arrow-up"></i>
+                </div>
+                <div class="dream-text" style="background: #F7E9DA;">
+                    <i class="fas fa-leaf"></i> Грациозно балансирует на букетах и покоряет вершины шкафов!
+                </div>
+            </div>
+            <div class="desc-meta">
+                <i class="fas fa-heartbeat"></i> пушистый акробат, охотник за солнечными зайчиками
+                <div class="paw-prints">🐾 🐾 🐾</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Тёплый блок о совместной истории: родитель, ребёнок и кот -->
+    <div class="together-section">
+        <p>
+            <i class="fas fa-quote-left"></i> 
+            Екатерина создаёт стиль, Захар мечтает о скорости, а Нубик ловит вдохновение на шкафах. 
+            Дизайн + мотоцикл + кошачьи кульбиты = идеальный союз! 
+            <i class="fas fa-quote-right"></i>
+        </p>
+        <p style="margin-top: 12px; font-size: 1.05rem;">
+            <i class="fas fa-hand-sparkles"></i> 
+            <strong>Творчество, мечты и немного кошачьей магии</strong> 
+            <i class="fas fa-hand-sparkles"></i>
+        </p>
+        <div style="font-size: 1.8rem; margin-top: 6px; letter-spacing: 6px;">
+            🧥 🏍️ 🐈‍⬛ ❤️
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <i class="fas fa-feather-alt"></i> Семья — главный источник вдохновения 
+        <i class="fas fa-feather-alt"></i><br>
+        <span style="font-size: 0.8rem;">✨ Захар мечтает о питбайке, мама-дизайнер верит в него, а Нубик осваивает новые высоты ✨</span>
+    </div>
+</div>
+
+</body>
+</html>
