@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>🐱 Викторина: Юки и Пуша</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(150deg, #fef7f0 0%, #fceee8 100%);
+            color: #4d3e33;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-attachment: fixed;
+        }
+
+        .quiz-container {
+            max-width: 620px;
+            width: 100%;
+            background: rgba(255, 248, 240, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 45px;
+            padding: 38px 28px 32px;
+            box-shadow: 0 25px 50px rgba(120, 80, 50, 0.12), 0 6px 16px rgba(0,0,0,0.04);
+            border: 2px solid rgba(235, 205, 175, 0.7);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Декоративные лапки */
+        .quiz-container::before {
+            content: "🐾";
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            font-size: 8rem;
+            opacity: 0.06;
+            transform: rotate(20deg);
+            pointer-events: none;
+        }
+        .quiz-container::after {
+            content: "🐾";
+            position: absolute;
+            bottom: -25px;
+            left: -15px;
+            font-size: 7rem;
+            opacity: 0.05;
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+
+        .quiz-header {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 22px;
+        }
+
+        .cats-emoji {
+            font-size: 3.2rem;
+            letter-spacing: 12px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Comfortaa', cursive;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #c2855b;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #a78b7a;
+            margin-bottom: 18px;
+        }
+
+        .cat-selector {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin: 18px 0 22px;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 2px solid #e2c4ae;
+            padding: 13px 30px;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4d3e33;
+            background: #fffaf5;
+        }
+
+        .cat-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(170, 110, 70, 0.18);
+        }
+
+        .cat-btn.active-yuki {
+            border-color: #f0a070;
+            background: #fff5ee;
+            color: #c4642a;
+            box-shadow: 0 8px 20px rgba(210, 110, 40, 0.25);
+        }
+
+        .cat-btn.active-pusha {
+            border-color: #8faec0;
+            background: #f5f9fd;
+            color: #3f6b8a;
+            box-shadow: 0 8px 20px rgba(80, 110, 150, 0.25);
+        }
+
+        .question-block {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 24px 20px;
+            margin: 18px 0;
+            border: 1px solid rgba(220, 190, 165, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: #4a362b;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+            align-items: stretch;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #edd9ca;
+            padding: 14px 18px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4d3e33;
+            background: #fffcf7;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #fff5ea;
+            border-color: #d8a77b;
+            transform: scale(1.02);
+        }
+
+        .option-btn.correct-guess {
+            background: #d9f0d9;
+            border-color: #6faa6f;
+            color: #2d5a2d;
+        }
+
+        .option-btn.wrong-guess {
+            background: #ffe0e0;
+            border-color: #d88c8c;
+            color: #8b3a3a;
+        }
+
+        .option-btn:disabled {
+            opacity: 0.75;
+            cursor: default;
+        }
+
+        .feedback-message {
+            margin-top: 14px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            min-height: 22px;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #f7b27a, #e8925c);
+            border: none;
+            color: white;
+            padding: 14px 34px;
+            border-radius: 35px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 12px;
+            display: none;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 18px rgba(200, 120, 60, 0.3);
+        }
+
+        .next-btn:hover {
+            background: linear-gradient(135deg, #f8a368, #e07d45);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 26px rgba(200, 120, 60, 0.4);
+        }
+
+        .result-screen {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 35px;
+            padding: 28px 22px;
+            margin-top: 15px;
+            border: 2px dashed #e2c4ae;
+        }
+
+        .result-screen h2 {
+            font-family: 'Comfortaa', cursive;
+            font-size: 2rem;
+            color: #c2855b;
+            margin-bottom: 10px;
+        }
+
+        .score-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffe4cc, #ffd1b3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px auto;
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #c4642a;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.07);
+        }
+
+        .restart-btn {
+            background: white;
+            border: 2px solid #d8a77b;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 12px;
+            color: #4d3e33;
+            font-size: 0.95rem;
+        }
+
+        .restart-btn:hover {
+            background: #fceee2;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 500px) {
+            .quiz-container {
+                padding: 28px 18px 24px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .cat-btn {
+                padding: 10px 18px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container" id="quizApp">
+        <div class="quiz-header">
+            <span class="cats-emoji">🐈 🐈‍⬛</span>
+            <h1>Кото-викторина</h1>
+            <p class="subtitle">Юки или Пуша — кто тебе ближе?</p>
+        </div>
+
+        <!-- Выбор кота -->
+        <div class="cat-selector" id="catSelector">
+            <button class="cat-btn" id="yukiBtn">
+                <span>🐾</span> Юки <span>🧡</span>
+            </button>
+            <button class="cat-btn" id="pushaBtn">
+                <span>🐾</span> Пуша <span>💙</span>
+            </button>
+        </div>
+
+        <!-- Блок вопроса -->
+        <div id="questionBlock" class="hidden">
+            <div class="question-block">
+                <div class="question-text" id="questionText"></div>
+                <div class="options-grid" id="optionsContainer"></div>
+                <div class="feedback-message" id="feedbackMsg"></div>
+            </div>
+            <button class="next-btn" id="nextButton">Дальше ➡️</button>
+        </div>
+
+        <!-- Экран результата -->
+        <div id="resultScreen" class="result-screen hidden">
+            <h2>🐱 Итог</h2>
+            <div class="score-circle" id="scoreDisplay">0</div>
+            <p id="resultMessage" style="font-weight: 600; margin-top: 10px;"></p>
+            <button class="restart-btn" id="restartButton">🔄 Пройти заново</button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // Данные о котах
+            const cats = {
+                yuki: {
+                    name: 'Юки',
+                    emoji: '🐈',
+                    questions: [
+                        {
+                            text: 'Как зовут этого кота?',
+                            options: ['Юки', 'Барсик', 'Снежок'],
+                            correct: 'Юки'
+                        },
+                        {
+                            text: 'Сколько весит Юки?',
+                            options: ['9 кг', '7 кг', '3 кг'],
+                            correct: '7 кг'
+                        },
+                        {
+                            text: 'Какой возраст у Юки?',
+                            options: ['15 лет', '6 лет', '12 лет'],
+                            correct: '12 лет'
+                        },
+                        {
+                            text: 'Любимое место для сна Юки?',
+                            options: ['ванна', 'кухня', 'кресло'],
+                            correct: 'ванна'
+                        }
+                    ]
+                },
+                pusha: {
+                    name: 'Пуша',
+                    emoji: '🐈‍⬛',
+                    questions: [
+                        {
+                            text: 'Как зовут этого кота?',
+                            options: ['Бармалей', 'Пуша', 'Марсик'],
+                            correct: 'Пуша'
+                        },
+                        {
+                            text: 'Сколько весит Пуша?',
+                            options: ['3 кг', '8 кг', '10 кг'],
+                            correct: '3 кг'
+                        },
+                        {
+                            text: 'Какой возраст у Пуши?',
+                            options: ['14 лет', '8 лет', '17 лет'],
+                            correct: '17 лет'
+                        },
+                        {
+                            text: 'Любимое место для сна Пуши?',
+                            options: ['кресло', 'клетка', 'диван'],
+                            correct: 'диван'
+                        }
+                    ]
+                }
+            };
+
+            // Состояние
+            let currentCatKey = null; // 'yuki' или 'pusha'
+            let currentQuestionIndex = 0;
+            let score = 0;
+            let answered = false;
+
+            // DOM элементы
+            const yukiBtn = document.getElementById('yukiBtn');
+            const pushaBtn = document.getElementById('pushaBtn');
+            const questionBlock = document.getElementById('questionBlock');
+            const resultScreen = document.getElementById('resultScreen');
+            const questionText = document.getElementById('questionText');
+            const optionsContainer = document.getElementById('optionsContainer');
+            const feedbackMsg = document.getElementById('feedbackMsg');
+            const nextButton = document.getElementById('nextButton');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const resultMessage = document.getElementById('resultMessage');
+            const restartButton = document.getElementById('restartButton');
+            const catSelector = document.getElementById('catSelector');
+
+            // Функция сброса интерфейса к выбору кота
+            function resetToSelection() {
+                currentCatKey = null;
+                currentQuestionIndex = 0;
+                score = 0;
+                answered = false;
+                questionBlock.classList.add('hidden');
+                resultScreen.classList.add('hidden');
+                catSelector.style.display = 'flex';
+                nextButton.style.display = 'none';
+                // Снимаем disabled с кнопок выбора
+                yukiBtn.disabled = false;
+                pushaBtn.disabled = false;
+                yukiBtn.classList.remove('active-yuki');
+                pushaBtn.classList.remove('active-pusha');
+            }
+
+            // Подсветка активной кнопки выбора
+            function setActiveCatButton(catKey) {
+                yukiBtn.classList.remove('active-yuki');
+                pushaBtn.classList.remove('active-pusha');
+                if (catKey === 'yuki') {
+                    yukiBtn.classList.add('active-yuki');
+                } else if (catKey === 'pusha') {
+                    pushaBtn.classList.add('active-pusha');
+                }
+            }
+
+            // Начать викторину для выбранного кота
+            function startQuiz(catKey) {
+                currentCatKey = catKey;
+                setActiveCatButton(catKey);
+                // Блокируем кнопки выбора, но оставляем видимыми
+                yukiBtn.disabled = true;
+                pushaBtn.disabled = true;
+                catSelector.style.display = 'flex';
+                questionBlock.classList.remove('hidden');
+                resultScreen.classList.add('hidden');
+                currentQuestionIndex = 0;
+                score = 0;
+                answered = false;
+                nextButton.style.display = 'none';
+                renderQuestion();
+            }
+
+            // Отображение текущего вопроса
+            function renderQuestion() {
+                const catData = cats[currentCatKey];
+                if (!catData || currentQuestionIndex >= catData.questions.length) {
+                    showResult();
+                    return;
+                }
+                const q = catData.questions[currentQuestionIndex];
+                questionText.textContent = `${currentQuestionIndex + 1}. ${q.text}`;
+                
+                // Перемешиваем варианты ответов
+                const shuffledOptions = [...q.options];
+                for (let i = shuffledOptions.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+                }
+
+                optionsContainer.innerHTML = '';
+                feedbackMsg.textContent = '';
+                answered = false;
+                nextButton.style.display = 'none';
+
+                shuffledOptions.forEach(optText => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.textContent = optText;
+                    btn.addEventListener('click', () => handleOptionClick(optText, btn, q.correct));
+                    optionsContainer.appendChild(btn);
+                });
+            }
+
+            // Обработка выбора варианта
+            function handleOptionClick(selectedText, btnElement, correctAnswer) {
+                if (answered) return;
+                answered = true;
+
+                const allOptions = document.querySelectorAll('.option-btn');
+                allOptions.forEach(btn => btn.disabled = true);
+
+                const isCorrect = (selectedText === correctAnswer);
+                if (isCorrect) {
+                    btnElement.classList.add('correct-guess');
+                    feedbackMsg.textContent = '✅ Верно! Мяу!';
+                    feedbackMsg.style.color = '#2d5a2d';
+                    score++;
+                } else {
+                    btnElement.classList.add('wrong-guess');
+                    feedbackMsg.textContent = '❌ Мимо! Правильный ответ выделен зелёным.';
+                    feedbackMsg.style.color = '#8b3a3a';
+                    // Подсветим правильный ответ
+                    allOptions.forEach(btn => {
+                        if (btn.textContent === correctAnswer) {
+                            btn.classList.add('correct-guess');
+                        }
+                    });
+                }
+
+                // Показать кнопку "Дальше"
+                nextButton.style.display = 'inline-block';
+                nextButton.focus();
+            }
+
+            // Переход к следующему вопросу
+            function goToNextQuestion() {
+                currentQuestionIndex++;
+                if (currentCatKey && currentQuestionIndex < cats[currentCatKey].questions.length) {
+                    renderQuestion();
+                } else {
+                    showResult();
+                }
+            }
+
+            // Показать итоговый результат
+            function showResult() {
+                questionBlock.classList.add('hidden');
+                resultScreen.classList.remove('hidden');
+                const totalQuestions = cats[currentCatKey].questions.length;
+                scoreDisplay.textContent = `${score} / ${totalQuestions}`;
+                
+                const catName = cats[currentCatKey].name;
+                let message = '';
+                const percent = score / totalQuestions;
+                if (percent === 1) {
+                    message = `🏆 Идеально! Ты знаешь ${catName} на 100%!`;
+                } else if (percent >= 0.75) {
+                    message = `😺 Отлично! Ты хорошо знаком с ${catName}.`;
+                } else if (percent >= 0.5) {
+                    message = `🐾 Неплохо, но ${catName} ещё может удивить.`;
+                } else {
+                    message = `😿 Кажется, ${catName} для тебя загадка. Попробуй ещё!`;
+                }
+                resultMessage.textContent = message;
+
+                // Разблокируем кнопки выбора кота
+                yukiBtn.disabled = false;
+                pushaBtn.disabled = false;
+                catSelector.style.display = 'flex';
+            }
+
+            // Полный перезапуск (возврат к выбору кота)
+            function restartQuiz() {
+                resetToSelection();
+                // Сбрасываем стили активной кнопки
+                yukiBtn.classList.remove('active-yuki');
+                pushaBtn.classList.remove('active-pusha');
+            }
+
+            // Привязка событий
+            yukiBtn.addEventListener('click', () => {
+                if (!yukiBtn.disabled) {
+                    startQuiz('yuki');
+                }
+            });
+            pushaBtn.addEventListener('click', () => {
+                if (!pushaBtn.disabled) {
+                    startQuiz('pusha');
+                }
+            });
+
+            nextButton.addEventListener('click', goToNextQuestion);
+            restartButton.addEventListener('click', restartQuiz);
+
+            // Инициализация: показываем выбор кота
+            resetToSelection();
+        })();
+    </script>
+</body>
+</html>
